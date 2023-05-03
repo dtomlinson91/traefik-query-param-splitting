@@ -57,4 +57,6 @@ func (qp *QueryParam) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 			}
 		}
 	}
+
+	qp.next.ServeHTTP(rw, req)
 }
