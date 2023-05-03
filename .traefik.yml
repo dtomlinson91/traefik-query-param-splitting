@@ -1,0 +1,9 @@
+﻿displayName: API Key Middleware
+type: middleware
+
+import: github.com/dtomlinson91/traefik-query-param-splitting-middleware
+
+summary: "Split delimited query parameters"
+
+testData:
+  delimiter: "|"
