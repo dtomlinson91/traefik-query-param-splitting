@@ -41,8 +41,8 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 
 func (qp *QueryParam) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	u := req.URL.Query()
+	l := make([]string, 0)
 
-	// for each query param
 	for qp, qv := range u {
 		// for each value
 		for _, qva := range qv {
@@ -51,12 +51,14 @@ func (qp *QueryParam) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 			if len(s) > 1 {
 				// if delimiter found, clear query param and set individual value
 				u.Del(qp)
-				for _, v := range s {
-					u.Add(qp, v)
-				}
+				u[qp] = append(l, s...)
 			}
 		}
 	}
-
+	req.URL.RawQuery = u.Encode()
+	fmt.Println(req.URL)
+	fmt.Println(req.URL.Query())
+	fmt.Println(req.URL.Query().Get("filter[bedrooms]"))
+	fmt.Println(req.URL.Query().Get("fields[property]"))
 	qp.next.ServeHTTP(rw, req)
 }
