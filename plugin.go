@@ -47,7 +47,7 @@ func (qp *QueryParam) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		// for each value
 		for _, qva := range qv {
 			// split by delimiter
-			s := strings.Split(qva, "|")
+			s := strings.Split(qryvRaw, qp.delimiter)
 			if len(s) > 1 {
 				// if delimiter found, clear query param and set individual value
 				u.Del(qp)
