@@ -43,22 +43,19 @@ func (qp *QueryParam) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	u := req.URL.Query()
 	l := make([]string, 0)
 
-	for qp, qv := range u {
+	for qryp, qryv := range u {
 		// for each value
-		for _, qva := range qv {
+		for _, qryvRaw := range qryv {
 			// split by delimiter
 			s := strings.Split(qryvRaw, qp.delimiter)
 			if len(s) > 1 {
 				// if delimiter found, clear query param and set individual value
-				u.Del(qp)
-				u[qp] = append(l, s...)
+				u.Del(qryp)
+				u[qryp] = append(l, s...)
 			}
 		}
 	}
 	req.URL.RawQuery = u.Encode()
-	fmt.Println(req.URL)
-	fmt.Println(req.URL.Query())
-	fmt.Println(req.URL.Query().Get("filter[bedrooms]"))
-	fmt.Println(req.URL.Query().Get("fields[property]"))
+	req.RequestURI = req.URL.RequestURI()
 	qp.next.ServeHTTP(rw, req)
 }
