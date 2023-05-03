@@ -1,1 +1,1 @@
-# traefik-query-param-splitting
+# traefik-query-param-splitting-middleware
